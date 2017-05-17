@@ -1,0 +1,8 @@
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/bin/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.deps.json
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/bin/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.runtimeconfig.json
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/bin/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.runtimeconfig.dev.json
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/bin/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.dll
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/bin/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.pdb
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/obj/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.AssemblyInfo.cs
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/obj/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.dll
+/Users/jfb/Dropbox/Applications/Heroku/jfbeaulieu-aspnet5/obj/Debug/netcoreapp1.1/jfbeaulieu-aspnet5.pdb
