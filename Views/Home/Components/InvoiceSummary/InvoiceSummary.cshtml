@@ -1,0 +1,15 @@
+@model InstaCore.Models.DataTransferObjects.InvoiceDto
+<div class="invoice-container">
+  <div class="well well-sm">
+    <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-6 ">
+        <h3>#@Model.InvoiceNumber</h3>
+        <span>@String.Format("{0:dddd, MMMM d, yyyy}", Model.InvoiceDate)</span>
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+        <h3>@String.Format("{0:C}", Model.TotalNetCharge * -1)</h3>
+        <span>Balance</span>
+      </div>
+    </div>
+  </div>
+</div>

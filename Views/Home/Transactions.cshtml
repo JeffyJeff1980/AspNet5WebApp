@@ -1,0 +1,48 @@
+@model IEnumerable<InstaCore.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<h2>Transactions</h2>
+
+
+<div class="transactions-container">
+  <div class="k-content wide">
+        @(Html.Kendo().Grid<InstaCore.Models.Transaction>()
+            .Name("Transactions")
+            .Columns(columns =>
+            {
+              columns.ForeignKey(c => c.Type, (System.Collections.IEnumerable)ViewData["transactionTypes"], "Id", "Name").Title("Transaction Type");
+              columns.ForeignKey(c => c.AccountId, (System.Collections.IEnumerable)ViewData["accounts"], "Id", "Description").Title("Account").Width(270);
+              columns.Bound(c => c.TransactionDate).Format("{0:d}").Title("Transaction Date");
+              columns.Bound(c => c.Balance).Format("{0:C}").HtmlAttributes(new { style = "text-align:right" }).Title("Transaction Balance");
+              columns.Command(command => { command.Edit(); command.Destroy(); }).Width(280);
+            })
+           .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .Pageable(pager =>
+                pager.Refresh(true)
+            )
+            .Navigatable()
+            .Resizable(resize => resize.Columns(true))
+            .Sortable(sortable =>
+            {
+                sortable.SortMode(GridSortMode.SingleColumn);
+                sortable.AllowUnsort(false);
+            })
+            .DataSource(dataSource => dataSource
+              .WebApi()
+                .Model(model =>
+                {
+                  model.Id(p => p.Id);
+                }
+              )
+              .Read(read => read.Action("Get", "Transactions"))
+              .Create(create => create.Action("Post", "Transactions"))
+              .Update(update => update.Action("Put", "Transactions", new { controller = "Transactions", id = "{0}" }))
+              .Destroy(destroy => destroy.Action("Delete", "Transactions", new { controller = "Transactions", id = "{0}" }))
+            .PageSize(10)
+        )
+        )
+  </div>
+</div>

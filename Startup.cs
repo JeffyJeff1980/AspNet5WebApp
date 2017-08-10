@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace jfbeaulieu_aspnet5
+namespace InstaCore
 {
     public class Startup
     {

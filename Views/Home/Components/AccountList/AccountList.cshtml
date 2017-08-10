@@ -1,0 +1,43 @@
+@model InstaCore.Models.DataTransferObjects.AccountInstitutionDto
+@if (Model.BankAccounts.Count() > 0)
+{
+<div class="panel panel-default account-list-container">
+  <div class="panel-heading">
+    <h3 class="panel-title">Banking Accounts</h3>
+  </div>
+  <div class="panel-body">
+    @foreach (var account in Model.BankAccounts)
+    {
+        @await Component.InvokeAsync("AccountSummary", account);
+    }
+  </div>
+</div>
+}
+@if (Model.InvestAccounts.Count() > 0)
+{
+<div class="panel panel-default account-list-container">
+  <div class="panel-heading">
+    <h3 class="panel-title">Investment Accounts</h3>
+  </div>
+  <div class="panel-body">
+    @foreach (var account in Model.InvestAccounts)
+    {
+        @await Component.InvokeAsync("AccountSummary", account);
+    }
+  </div>
+</div>
+}
+@if (Model.InvoiceAccounts.Count() > 0)
+{
+<div class="panel panel-default account-list-container">
+  <div class="panel-heading">
+    <h3 class="panel-title">Invoices</h3>
+  </div>
+  <div class="panel-body">
+    @foreach (var invoice in Model.InvoiceAccounts)
+    {
+        @await Component.InvokeAsync("InvoiceSummary", invoice);
+    }
+  </div>
+</div>
+}

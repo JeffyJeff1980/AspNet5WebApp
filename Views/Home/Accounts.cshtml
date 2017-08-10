@@ -1,0 +1,50 @@
+@model IEnumerable<InstaCore.Models.Account>
+
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<h2>Accounts</h2>
+
+<div class="accounts-container">
+  <div class="k-content wide">
+    @(Html.Kendo().Grid<InstaCore.Models.Account>()
+            .Name("Accounts")
+            .Columns(columns =>
+            {
+              columns.Bound(c => c.Id);
+              columns.Bound(c => c.Description).Title("Account Name");
+              columns.ForeignKey(p => p.InstitutionId, (System.Collections.IEnumerable)ViewData["institutions"], "Id", "Description").Title("Institution").Width(270);
+              columns.ForeignKey(c => c.Type, (System.Collections.IEnumerable)ViewData["accountTypes"], "Id", "Name").Title("Account Type");
+              columns.ForeignKey(c => c.Currency, (System.Collections.IEnumerable)ViewData["currencyTypes"], "Id", "Name").Title("Account Currency");
+              columns.Command(command => { command.Edit(); command.Destroy(); }).Width(280);
+            })
+            .Sortable(sortable =>
+            {
+              sortable.SortMode(GridSortMode.SingleColumn);
+              sortable.AllowUnsort(false);
+            })
+            .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5)
+            )
+            .ToolBar(toolbar => { toolbar.Create(); })
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .DataSource(dataSource => dataSource
+              .WebApi()
+                .Model(model =>
+                {
+                  model.Id(p => p.Id);
+                  model.Field(p => p.Id).Editable(false);
+                }
+              )
+              .Read(read => read.Action("Get", "Accounts"))
+              .Create(create => create.Action("Post", "Accounts"))
+              .Update(update => update.Action("Put", "Accounts", new { id = "{0}" }))
+              .Destroy(destroy => destroy.Action("Delete", "Accounts", new { id = "{0}" }))
+            .PageSize(10)
+        )
+    )
+  </div>
+</div>

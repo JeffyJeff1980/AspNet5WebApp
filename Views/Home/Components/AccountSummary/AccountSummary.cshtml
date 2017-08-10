@@ -1,0 +1,15 @@
+@model InstaCore.Models.DataTransferObjects.AccountSummaryDto
+<div class="account-container">
+  <div class="well well-sm">
+    <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-6 ">
+        <h3>@Model.Description</h3>
+        <span>@Model.Type</span>
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+        <h3>@String.Format("{0:C}", Model.Balance)</h3>
+        <span>Available Balance</span>
+      </div>
+    </div>
+  </div>
+</div>

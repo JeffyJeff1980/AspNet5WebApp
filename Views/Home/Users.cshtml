@@ -1,0 +1,48 @@
+﻿@model IEnumerable<UserDto>
+@using InstaCore.Models.DataTransferObjects;
+<br />
+
+<h2>Users</h2>
+
+<div class="users-container">
+  <div class="k-content wide">
+    @(Html.Kendo().Grid(Model)
+            .Name("Users")
+            .Columns(columns =>
+            {
+              columns.Bound(p => p.Email).Title("Email").Width(270);
+              columns.ForeignKey(c => c.RoleName, (System.Collections.IEnumerable)ViewData["roleNames"], "Id", "Name").Title("Role");
+              columns.Bound(c => c.Password).Title("Password");
+              //columns.Bound(c => c.EmailConfirmed).Title("Email Confirmed");
+              //columns.Bound(c => c.LockoutEnabled).Title("Lockout Enabled");
+              columns.Command(command => { command.Edit(); command.Destroy(); }).Width(280);
+            })
+            .Sortable(sortable =>
+            {
+              sortable.SortMode(GridSortMode.SingleColumn);
+              sortable.AllowUnsort(false);
+            })
+            .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5)
+            )
+            .ToolBar(toolbar => { toolbar.Create(); })
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .DataSource(dataSource => dataSource
+              .WebApi()
+                .Model(model =>
+                {
+                  model.Id(p => p.Id);
+                }
+              )
+              .ServerOperation(false)
+              .Create(create => create.Action("Create", "Users"))
+              .Update(update => update.Action("Edit", "Users", new { id = "{0}" }))
+              .Destroy(destroy => destroy.Action("Delete", "Users", new { id = "{0}" }))
+            .PageSize(10)
+        )
+    )
+  </div>
+</div>
+

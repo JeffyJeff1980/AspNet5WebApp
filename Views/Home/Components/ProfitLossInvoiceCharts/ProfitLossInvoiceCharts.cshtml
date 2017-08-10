@@ -1,0 +1,97 @@
+@model InstaCore.Models.DataTransferObjects.InstitutionInvoiceDto
+<div class="invoice-charts-container">
+  <h3>Totals per week (Last 6 months)</h3>
+  <div class="k-content wide">
+    @(Html.Kendo().Chart(Model.WeekTotals)
+        .Name("TotalsChart")
+        .Theme("Bootstrap")
+        //.HtmlAttributes(new { style = "height: 400px;" })
+        .Title("Week Totals")
+        .Legend(legend => legend
+            .Visible(false)
+            .Position(ChartLegendPosition.Top)
+        )
+        .SeriesDefaults(seriesDefaults => seriesDefaults
+            .Column().Stack(false)
+        )
+        .Series(series =>
+        {
+          series.Column(model => model.WeekTotal)
+              .Name("Weekly Totals")
+              .Opacity(0.9)
+              .Color("#67b49d")
+              .NegativeColor("#f7516a")
+              .Labels(labels => labels
+              .Format("{0:C2}")
+              .Visible(false)
+            );
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.DateWeek)
+            .Date()
+            .BaseUnit(ChartAxisBaseUnit.Weeks)
+            .MajorGridLines(lines => lines.Visible(false))
+            .Labels(label => label
+                .Rotation(90)
+                .Padding(0, 0, 0, 0)
+                .Format("ddd, dd MMM yyyy"))
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+            .Labels(labels => labels.Format("{0:C2}"))
+            .Line(line => line.Visible(false))
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:C2}")
+
+        )
+    )
+  </div>
+  <br />
+  <h3>Cumulative totals per week</h3>
+  <div class="k-content wide">
+    @(Html.Kendo().Chart(Model.WeekRunningTotals)
+        .Name("CumulativeChart")
+        .Theme("Bootstrap")
+        .HtmlAttributes(new { style = "height: 400px;" })
+        .Title("Weekly Running Totals")
+        .Legend(legend => legend
+            .Visible(false)
+            .Position(ChartLegendPosition.Bottom)
+        )
+            .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .SeriesDefaults(seriesDefaults =>
+            seriesDefaults.Area().Line(line => line.Style(ChartAreaStyle.Normal))
+        )
+        .Series(series =>
+        {
+          series.Area(model => model.RunningTotal)
+            .Name("Week Running Total")
+            .Opacity(0.9)
+            .Color("#88BEEA"); 
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.DateWeek)
+            .Date()
+            .BaseUnit(ChartAxisBaseUnit.Weeks)
+            .MajorGridLines(lines => lines.Visible(false))
+            .Labels(label => label
+                .Rotation(90)
+                .Padding(0, 0, 0, 0)
+                .Format("ddd, dd MMM yyyy"))
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+            .Labels(labels => labels.Format("{0:C2}"))
+            .Line(line => line.Visible(false))
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:C2}")
+        )
+    )
+  </div>
+</div>

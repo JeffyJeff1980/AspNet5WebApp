@@ -1,0 +1,74 @@
+@model IEnumerable<InstaCore.Models.Invoice>
+
+@{
+    ViewData["Title"] = "Invoices";
+    var isReceivedTemplate = "# if (data.IsReceived) { # <i class='fa fa-check' aria-hidden='true'></i> # } #";
+}
+
+<h2>Invoices</h2>
+
+<div class="invoices-container">
+  <div class="k-content wide">
+    @(Html.Kendo().Grid(Model)
+            .Name("Invoices")
+            .Columns(columns =>
+            {
+              columns.Bound(c => c.Participant).Title("Participant ID").Filterable(false);
+              columns.ForeignKey(p => p.InstitutionId, (System.Collections.IEnumerable)ViewData["institutions"], "Id", "Description").Title("Institution").Width(200).Filterable(false);
+              columns.Bound(c => c.InvoiceNumber).Title("Invoice Number").Filterable(false);
+              columns.Bound(c => c.InvoiceDate).Format("{0:d}").Width(140).Title("Invoice Date").Filterable(false);
+              columns.Bound(c => c.PaymentDueDate).Format("{0:d}").Width(140).Title("Payment Due Date").Filterable(false);
+              columns.Bound(c => c.TotalNetCharge).Format("{0:C}")
+                .Filterable(false)
+                .HtmlAttributes(new { style = "text-align:right" })
+                .Title("Total Net Charge")
+                .ClientTemplate(
+                  "# if (TotalNetCharge !== null) { #" +
+                      "# if (TotalNetCharge > 0) { #" +
+                          "<span class=\"positive\">#=kendo.toString(TotalNetCharge, \"C\")#</span>" +
+                      "# } else if (TotalNetCharge < 0) { #" +
+                          "<span class=\"negative\">#=kendo.toString(TotalNetCharge, \"C\")#</span>" +
+                      "# } else { #" +
+                          "<span>#=kendo.toString(TotalNetCharge, \"C\")#</span>" +
+                      "# } #" +
+                  "# } #"
+                  );
+              columns.Bound(c => c.IsReceived)
+                .ClientTemplate(isReceivedTemplate)
+                .HtmlAttributes(new { style = "text-align: center" })
+                .Title("Payment Received")
+                .Filterable(true);
+              columns.Command(command => { command.Edit(); command.Destroy(); }).Width(280);
+            })
+            .Filterable(filterable => filterable.Mode(GridFilterMode.Menu))
+            .Navigatable()
+            .Resizable(resize => resize.Columns(true))
+            .Sortable(sortable =>
+            {
+              sortable.SortMode(GridSortMode.SingleColumn);
+              sortable.AllowUnsort(false);
+            })
+            .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5)
+            )
+            .ToolBar(toolbar => { toolbar.Create(); })
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .DataSource(dataSource => dataSource
+              .WebApi()
+                .Model(model =>
+                {
+                  model.Id(p => p.Id);
+                }
+              )
+              .ServerOperation(false)
+              .Create(create => create.Action("Post", "Invoices"))
+              .Update(update => update.Action("Put", "Invoices", new { id = "{0}" }))
+              .Destroy(destroy => destroy.Action("Delete", "Invoices", new { id = "{0}" }))
+              .Filter(filter => filter.Add(p => p.IsReceived).IsEqualTo(false))
+              .PageSize(10)
+        )
+    )
+  </div>
+</div>

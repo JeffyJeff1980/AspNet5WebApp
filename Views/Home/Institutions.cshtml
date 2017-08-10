@@ -1,0 +1,47 @@
+@model IEnumerable<InstaCore.Models.Institution>
+
+@{
+    ViewData["Title"] = "Institutions";
+}
+
+<h2>Institutions</h2>
+
+<div class="institutions-container">
+  <div class="k-content wide">
+    @(Html.Kendo().Grid<InstaCore.Models.Institution>()
+            .Name("Institutions")
+            .Columns(columns =>
+            {
+              columns.Bound(c => c.Description).Title("Institution Name");
+              columns.ForeignKey(c => c.Type, (System.Collections.IEnumerable)ViewData["institutionTypes"], "Id", "Name").Title("Institution Type");
+              columns.Command(command => { command.Edit(); command.Destroy(); }).Width(280);
+            })
+            .Sortable(sortable =>
+            {
+              sortable.SortMode(GridSortMode.SingleColumn);
+              sortable.AllowUnsort(false);
+            })
+            .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5)
+            )
+            .ToolBar(toolbar => { toolbar.Create(); })
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .DataSource(dataSource => dataSource
+              .WebApi()
+                .Model(model =>
+                {
+                  model.Id(p => p.Id);
+                }
+              )
+              .Read(read => read.Action("Get", "Institutions"))
+              .Create(create => create.Action("Post", "Institutions"))
+              .Update(update => update.Action("Put", "Institutions", new { id = "{0}" }))
+              .Destroy(destroy => destroy.Action("Delete", "Institutions", new { id = "{0}" }))
+            .PageSize(10)
+        )
+    )
+  </div>
+</div>
+

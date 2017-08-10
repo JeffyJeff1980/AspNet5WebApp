@@ -1,0 +1,11 @@
+@model IEnumerable<InstaCore.Models.DataTransferObjects.InstitutionInvoiceDto>
+
+<h1>Profit &amp; Loss Summary <small>@ViewBag.CurrentDate</small></h1>
+<div class="invoice-totals-container">
+  <h3>Invoice Totals</h3>
+  @await Component.InvokeAsync("ProfitLossInvoiceTotals", Model)
+</div>
+
+<div class="invoice-charts-totals-container">
+  @await Component.InvokeAsync("ProfitLossInvoiceCharts", Model)
+</div>

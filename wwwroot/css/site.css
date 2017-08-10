@@ -23,6 +23,19 @@ textarea {
     line-height: 1.4;
 }
 
+/* buttons and links extension to use brackets: [ click me ] */
+.btn-bracketed::before {
+    display: inline-block;
+    content: "[";
+    padding-right: 0.5em;
+}
+
+.btn-bracketed::after {
+    display: inline-block;
+    content: "]";
+    padding-left: 0.5em;
+}
+
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
@@ -34,4 +47,29 @@ textarea {
     .carousel-caption {
         display: none;
     }
+}
+
+.account-container:hover {
+  color: darkgray;
+  text-decoration: none;
+  background-color: white;
+  background-position: 0 -15px;
+  cursor: pointer;
+}
+
+.account-list-container {
+  margin: 10px;
+}
+
+.positive {
+  color: #5cb85c;
+}
+
+.negative {
+  color: #d9534f;
+}
+
+.admin-checkbox {
+  width: 20px;
+  height: 20px;
 }

@@ -1,0 +1,17 @@
+@model IEnumerable<InstaCore.Models.DataTransferObjects.AccountInstitutionDto>
+
+@{
+    ViewData["Title"] = "AccountSummary";
+}
+
+<h1>Account Summary <small>@ViewBag.CurrentDate</small></h1>
+<br />
+@foreach (var accountInstitution in Model)
+{
+  <div class="panel panel-primary institution-container">
+    <div class="panel-heading">
+      <h3 class="panel-title">@accountInstitution.Description</h3>
+    </div>
+    @await Component.InvokeAsync("AccountList", accountInstitution)
+  </div>
+}
